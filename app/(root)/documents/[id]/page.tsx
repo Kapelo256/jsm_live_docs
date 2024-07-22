@@ -8,8 +8,11 @@ const Document = async ({ params: { id } }: SearchParamProps) => {
   const clerkUser = await currentUser();
   if(!clerkUser) redirect('/sign-in');
 
-  const room = await getDocument({roomId: id, userId: clerkUser.emailAddresses[0].emailAddress,
+  const room = await getDocument({
+    roomId: id,
+    userId: clerkUser.emailAddresses[0].emailAddress, 
   });
+  console.log(room);
 
   if(!room) redirect('/');
 
@@ -24,7 +27,7 @@ const Document = async ({ params: { id } }: SearchParamProps) => {
   }))
 
   const currentUserType = room.usersAccesses[clerkUser.emailAddresses[0].emailAddress]?.includes('room:write') ? 'editor' : 'viewer';
- 
+
   return (
     <main className="flex w-full flex-col items-center">
       <CollaborativeRoom 
